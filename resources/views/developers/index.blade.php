@@ -15,7 +15,6 @@
         <th>Founded</th>
     </tr>
     </thead>
-    <tbody>
     @foreach ($developers as $developer)
         <tr>
             <td>{{ $developer->id }}</td>
@@ -23,7 +22,6 @@
             <td>{{ $developer->founded }}</td>
         </tr>
     @endforeach
-    </tbody>
 </table>
 </body>
 </html>

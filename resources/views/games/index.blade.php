@@ -17,7 +17,6 @@
         <th>Genre</th>
     </tr>
     </thead>
-    <tbody>
     @foreach ($games as $game)
         <tr>
             <td>{{ $game->id }}</td>
@@ -27,7 +26,6 @@
             <td>{{ $game->genre->name }}</td>
         </tr>
     @endforeach
-    </tbody>
 </table>
 </body>
 </html>

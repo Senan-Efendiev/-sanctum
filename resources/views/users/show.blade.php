@@ -8,16 +8,18 @@
 <body>
 <h1>User Details</h1>
 
-<h2>{{ $user->name }}</h2>
-<p>Email: {{ $user->email }}</p>
-
-<h3>Roles:</h3>
-<ul>
-    @foreach ($user->roles as $role)
-        <li>{{ $role->name }}</li>
-    @endforeach
-</ul>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <td>{{ $user->name }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ $user->email }}</td>
+    </tr>
+</table>
 
 <a href="{{ url('/users') }}">Back to Users</a>
 </body>
 </html>
+

@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Developer;
+use App\Models\Genre;
+use App\Models\Game;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +15,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Создаем несколько жанров
+        Genre::factory()->count(10)->create(); // Создает 10 жанров
 
-        User::factory()->create([
+        // Создаем несколько разработчиков
+        $developers = Developer::factory()->count(3)->create();
+
+        // Создаем несколько пользователей
+        User::factory()->count(10)->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        // Создаем несколько игр, связывая их с разработчиками и жанрами
+        Game::factory()->count(20)->create([
+            'developer_id' => $developers->random()->id,
+            'genre_id' => $genres->random()->id,
         ]);
     }
 }

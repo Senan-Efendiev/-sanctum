@@ -13,7 +13,7 @@ class DeveloperController extends Controller
     public function index()
     {
         $developers = Developer::all();
-        return response()->json($developers);
+        return view('developers.index', compact('developers'));
     }
 
     /**
@@ -22,6 +22,6 @@ class DeveloperController extends Controller
     public function show($id)
     {
         $developer = Developer::with('games')->findOrFail($id);
-        return response()->json($developer);
+        return view('developers.show', compact('developer'));
     }
 }

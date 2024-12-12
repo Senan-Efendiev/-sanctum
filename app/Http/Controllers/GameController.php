@@ -13,7 +13,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::with('developer', 'genre')->get();
-        return response()->json($games);
+        return view('games.index', compact('games'));
     }
 
     /**
@@ -22,6 +22,6 @@ class GameController extends Controller
     public function show($id)
     {
         $game = Game::with('developer', 'genre')->findOrFail($id);
-        return response()->json($game);
+        return view('games.show', compact('game'));
     }
 }

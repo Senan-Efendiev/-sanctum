@@ -10,14 +10,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json($users);
+        return view('users.index', compact('users'));
     }
     /**
      * Display the specified user along with their roles.
      */
     public function show($id) {
         $user = User::findOrFail($id); // Получаем пользователя по ID
-        return view('user.show', compact('user'));
+        return view('users.show', compact('user'));
     }
 
 }

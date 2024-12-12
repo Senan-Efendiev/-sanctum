@@ -13,7 +13,7 @@ class GenreController extends Controller
     public function index()
     {
         $genres = Genre::with('games')->get();
-        return response()->json($genres);
+        return view('genres.index', compact('genres'));
     }
 
     /**
@@ -22,6 +22,6 @@ class GenreController extends Controller
     public function show($id)
     {
         $genre = Genre::with('games')->findOrFail($id);
-        return response()->json($genre);
+        return view('genres.show', compact('genre'));
     }
 }

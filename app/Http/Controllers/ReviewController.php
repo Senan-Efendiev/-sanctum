@@ -10,12 +10,12 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::with('game', 'user')->get();
-        return response()->json($reviews);
+        return view('reviews.index', compact('reviews'));
     }
 
     public function show($id)
     {
         $review = Review::with('game', 'user')->findOrFail($id);
-        return response()->json($review);
+        return view('reviews.show', compact('review'));
     }
 }

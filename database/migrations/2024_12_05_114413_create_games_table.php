@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +12,7 @@ class CreateGamesTable extends Migration
             $table->string('title');
             $table->date('release_date')->nullable();
             $table->foreignId('developer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('genre_id')->nullable()->constrained()->onDelete('set null');
             $table->string('platform');
             $table->timestamps();
         });
@@ -21,6 +21,9 @@ class CreateGamesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('games');
+
+        Schema::table('games', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 }
-

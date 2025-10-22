@@ -1,22 +1,17 @@
 <?php
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Genre extends Model
 {
-    protected $fillable = [
-        'name',
-    ];
+    use HasFactory;
+    protected $fillable = ['name'];
 
-    /**
-     * Определяет отношение "один-ко-многим" с моделью Game.
-     */
-    public function games()
+    public function games(): BelongsToMany
     {
         return $this->belongsToMany(Game::class, 'game_genre');
     }
-
-
 }

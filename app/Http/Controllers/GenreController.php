@@ -3,25 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 
 class GenreController extends Controller
 {
-    /**
-     * Display a listing of the genres.
-     */
     public function index()
     {
-        $genres = Genre::with('games')->get();
+        $genres = Genre::all();
         return view('genres.index', compact('genres'));
     }
 
-    /**
-     * Display the specified genre along with its games.
-     */
+    public function create()
+    {
+        return view('genres.create');
+    }
+
+    public function store(StoreGenreRequest $request)
+    {
+        Genre::create($request->validated());
+        return redirect()->route('genres.index')
+            ->with('success', 'Жанр успешно создан!');
+    }
+
     public function show($id)
     {
         $genre = Genre::with('games')->findOrFail($id);
         return view('genres.show', compact('genre'));
+    }
+
+    public function edit($id)
+    {
+        $genre = Genre::findOrFail($id);
+        return view('genres.edit', compact('genre'));
+    }
+
+    public function update(UpdateGenreRequest $request, $id)
+    {
+        $genre = Genre::findOrFail($id);
+        $genre->update($request->validated());
+        return redirect()->route('genres.index')
+            ->with('success', 'Жанр успешно обновлен!');
+    }
+
+    public function destroy($id)
+    {
+        $genre = Genre::findOrFail($id);
+        $genre->delete();
+        return redirect()->route('genres.index')
+            ->with('success', 'Жанр успешно удален!');
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
     }
 }

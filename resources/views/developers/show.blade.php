@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developers</title>
-</head>
-<body>
-<h1>Developers</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Founded</th>
-        <th>Games</th>
-    </tr>
-    </thead>
+@extends('layouts.app')
 
-        <tr>
-            <td>{{ $developer->id }}</td>
-            <td>{{ $developer->name }}</td>
-            <td>{{ $developer->founded }}</td>
-            <td>{{ implode(', ', $developer->games->pluck('title')->toArray()) }}</td>
-        </tr>
+@section('content')
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h2>Разработчик: {{ $developer->name }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>ID:</strong> {{ $developer->id }}</p>
+                        <p><strong>Основан:</strong> {{ $developer->founded ? $developer->founded->format('d.m.Y') : 'Не указано' }}</p>
+                    </div>
+                </div>
 
-</table>
-</body>
-</html>
+                <h4 class="mt-4">Игры этого разработчика:</h4>
+                @if($developer->games->count() > 0)
+                    <ul class="list-group">
+                        @foreach($developer->games as $game)
+                            <li class="list-group-item">
+                                <a href="{{ route('games.show', $game->id) }}">{{ $game->title }}</a>
+                                <span class="badge bg-secondary">{{ $game->release_date->format('Y') }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="alert alert-warning">Нет игр этого разработчика</div>
+                @endif
+            </div>
+        </div>
+    </div>
+@endsection

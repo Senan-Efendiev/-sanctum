@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class DeveloperApiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+
     public function index(): JsonResponse
     {
         $developers = Developer::with('games')->get();

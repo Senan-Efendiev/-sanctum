@@ -133,4 +133,40 @@ class GameApiController extends Controller
             'message' => 'Game deleted successfully'
         ]);
     }
+
+    /**
+     * Bulk create games (protected route)
+     */
+    public function bulkCreate(Request $request): JsonResponse
+    {
+        // Проверяем аутентификацию
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $validated = $request->validate([
+            'games' => 'required|array',
+            'games.*.title' => 'required|string|max:255',
+            'games.*.release_date' => 'required|date',
+            'games.*.developer_id' => 'required|exists:developers,id',
+            'games.*.genre_id' => 'required|exists:genres,id',
+            'games.*.platform' => 'required|string|max:50',
+        ]);
+
+        $createdGames = [];
+
+        foreach ($validated['games'] as $gameData) {
+            $game = Game::create($gameData);
+            $createdGames[] = $game->load(['developer', 'genre', 'genres']);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $createdGames,
+            'message' => count($createdGames) . ' games created successfully'
+        ], 201);
+    }
 }

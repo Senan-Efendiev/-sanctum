@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'username' => 'Senan',
             'email' => 'admin@mail.ru',
-            'password' => Hash::make('123'),
+            'password' => bcrypt('123'),
         ]);
     }
 }

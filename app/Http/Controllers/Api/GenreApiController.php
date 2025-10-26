@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 
 class GenreApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+
     public function index(): JsonResponse
     {
         $genres = Genre::with('games')->get();
@@ -23,9 +25,6 @@ class GenreApiController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id): JsonResponse
     {
         $genre = Genre::with('games')->find($id);
@@ -44,9 +43,6 @@ class GenreApiController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -62,9 +58,6 @@ class GenreApiController extends Controller
         ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id): JsonResponse
     {
         $genre = Genre::find($id);
@@ -89,9 +82,6 @@ class GenreApiController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id): JsonResponse
     {
         $genre = Genre::find($id);

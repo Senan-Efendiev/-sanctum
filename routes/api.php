@@ -34,7 +34,7 @@ Route::get('/games/{id}/reviews', function ($id) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
     // Protected API routes
@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('genres', GenreApiController::class)->except(['index', 'show']);
 
     // Дополнительные защищенные маршруты
-    Route::post('/games/{id}/rate', function ($id) {
+    Route::get('/games/{id}/rate', function ($id) {
         $game = \App\Models\Game::find($id);
 
         if (!$game) {
@@ -62,6 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Защищенный маршрут для массового создания игр
-    Route::post('/games/bulk-create', [GameApiController::class, 'bulkCreate']);
+    Route::get('/games/bulk-create', [GameApiController::class, 'bulkCreate']);
 });
 
